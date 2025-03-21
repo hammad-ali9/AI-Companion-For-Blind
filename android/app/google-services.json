@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1074831604574",
+    "project_id": "path-vision",
+    "storage_bucket": "path-vision.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074831604574:android:cba5406bb99d07f9f56dcf",
+        "android_client_info": {
+          "package_name": "com.devaxiss.ultralytics_yolo_example"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnJxNUAhYbfM5DzHcVgsels8--JKccw7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

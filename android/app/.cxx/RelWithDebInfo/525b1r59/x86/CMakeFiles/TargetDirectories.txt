@@ -1,0 +1,2 @@
+D:/kbar/Daud/example/android/app/.cxx/RelWithDebInfo/525b1r59/x86/CMakeFiles/edit_cache.dir
+D:/kbar/Daud/example/android/app/.cxx/RelWithDebInfo/525b1r59/x86/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"path-vision","appId":"1:1074831604574:android:cba5406bb99d07f9f56dcf","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"path-vision","configurations":{"android":"1:1074831604574:android:cba5406bb99d07f9f56dcf","ios":"1:1074831604574:ios:f6c2bd6fab5b7d15f56dcf"}}}}}}
