@@ -1,5 +1,5 @@
 import 'dart:io' as io;
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
@@ -44,11 +44,35 @@ class _MyAppState extends State<CameraView> {
 
   FlutterTts flutterTts = FlutterTts(); // Initialize FlutterTts
 
+  @override
+  void initState() {
+    super.initState();
+    _initTts();
+  }
+
+  Future<void> _initTts() async {
+    try {
+      await flutterTts.setLanguage("en-US");
+      await flutterTts.setPitch(0.7);
+      await flutterTts.setSpeechRate(0.5);
+      await flutterTts.setVolume(1.0);
+      print('TTS initialized successfully');
+    } catch (e) {
+      print('Error initializing TTS: $e');
+    }
+  }
+
   Future<void> speak(String text) async {
-    await flutterTts.setLanguage("en-US");
-    await flutterTts.setPitch(0.7);
-    await flutterTts.awaitSpeakCompletion(true);
-    await flutterTts.speak(text);
+    print('Attempting to speak: $text'); // Debug log
+    try {
+      await flutterTts.setLanguage("en-US");
+      await flutterTts.setPitch(0.7);
+      await flutterTts.awaitSpeakCompletion(true);
+      await flutterTts.speak(text);
+      print('Successfully started speaking: $text'); // Debug log
+    } catch (e) {
+      print('Error speaking: $e'); // Debug log
+    }
   }
 
 
@@ -120,7 +144,10 @@ class _MyAppState extends State<CameraView> {
                       builder: (context, snapshot) {
                         final inferenceTime = snapshot.data;
                         if (inferenceTime != null && inferenceTime > 500) {
-                          _startHapticFeedback(); // Start haptic feedback when inference begins
+                          _startHapticFeedback();
+                          final random = Random();
+                          final direction = random.nextBool() ? "left" : "right";
+                          speak("Object Detected Move $direction.");
                         }
 
                         return StreamBuilder<double?>(

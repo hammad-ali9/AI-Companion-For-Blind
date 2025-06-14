@@ -96,40 +96,50 @@ class _FloatingMapState extends State<FloatingMap> {
   }
 
   void _monitorTurns(List<LatLng> polylinePoints) {
+    print('Starting turn monitoring...'); // Debug log
     Timer.periodic(const Duration(seconds: 5), (timer) async {
-      final Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-      final LatLng userLocation = LatLng(position.latitude, position.longitude);
-
-      // Find the nearest point on the polyline
-      double minDistance = double.infinity;
-      int nearestIndex = 0;
-      for (int i = 0; i < polylinePoints.length; i++) {
-        final double distance =
-            _calculateDistance(userLocation, polylinePoints[i]);
-        if (distance < minDistance) {
-          minDistance = distance;
-          nearestIndex = i;
-        }
-      }
-
-      // Check if the user is approaching a turn
-      if (nearestIndex < polylinePoints.length - 1) {
-        final LatLng nextPoint = polylinePoints[nearestIndex + 1];
-        final double bearing = _calculateBearing(
-          polylinePoints[nearestIndex],
-          nextPoint,
+      try {
+        final Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high,
         );
+        final LatLng userLocation = LatLng(position.latitude, position.longitude);
+        print('Current user location: $userLocation'); // Debug log
 
-        // Provide turn instructions based on bearing
-        if (bearing >= 45 && bearing < 135) {
-          widget.onTurnCallback("Turn right in 100 meters");
-        } else if (bearing >= 225 && bearing < 315) {
-          widget.onTurnCallback("Turn left in 100 meters");
-        } else {
-          widget.onTurnCallback("Continue straight");
+        // Find the nearest point on the polyline
+        double minDistance = double.infinity;
+        int nearestIndex = 0;
+        for (int i = 0; i < polylinePoints.length; i++) {
+          final double distance =
+              _calculateDistance(userLocation, polylinePoints[i]);
+          if (distance < minDistance) {
+            minDistance = distance;
+            nearestIndex = i;
+          }
         }
+
+        // Check if the user is approaching a turn
+        if (nearestIndex < polylinePoints.length - 1) {
+          final LatLng nextPoint = polylinePoints[nearestIndex + 1];
+          final double bearing = _calculateBearing(
+            polylinePoints[nearestIndex],
+            nextPoint,
+          );
+          print('Calculated bearing: $bearing'); // Debug log
+
+          String instruction = "";
+          // Provide turn instructions based on bearing
+          if (bearing >= 45 && bearing < 135) {
+            instruction = "Turn right in 100 meters";
+          } else if (bearing >= 225 && bearing < 315) {
+            instruction = "Turn left in 100 meters";
+          } else {
+            instruction = "Continue straight";
+          }
+          print('Generated instruction: $instruction'); // Debug log
+          widget.onTurnCallback(instruction);
+        }
+      } catch (e) {
+        print('Error in _monitorTurns: $e'); // Debug log
       }
     });
   }
